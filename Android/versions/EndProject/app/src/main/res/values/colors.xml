@@ -1,8 +1,0 @@
-<resources>
-    <color name="dark_blue">#003366</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="light_blue">#5A9BD4</color>
-    <color name="gray">#A9A9A9</color>
-    <color name="purple">#8A2BE2</color> <!-- צבע סגול תואם לכפתורים במסך הראשי -->
-</resources>

@@ -6,20 +6,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
 public class GuessNumberActivity extends AppCompatActivity {
 
     private int targetNumber;
-    private int level = 1;
-    private int maxRange = 10;
-    private Random random;
-
+    private int range = 20;
     private EditText guessInput;
+    private TextView rangeText;
     private TextView resultText;
-    private Button guessButton;
+    private Button checkButton;
+    private Button resetButton;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,45 +28,67 @@ public class GuessNumberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guess_number);
 
         guessInput = findViewById(R.id.guessInput);
+        rangeText = findViewById(R.id.rangeText);
         resultText = findViewById(R.id.resultText);
-        guessButton = findViewById(R.id.guessButton);
+        checkButton = findViewById(R.id.checkButton);
+        resetButton = findViewById(R.id.resetButton);
+        backButton = findViewById(R.id.backButton);
 
-        random = new Random();
-        generateNewNumber();
+        initializeGame();
 
-        guessButton.setOnClickListener(new View.OnClickListener() {
+        checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkGuess();
+                String inputText = guessInput.getText().toString().trim();
+                if (!inputText.isEmpty()) {
+                    int guess = Integer.parseInt(inputText);
+                    if (guess == targetNumber) {
+                        resultText.setText("Correct!");
+                        increaseDifficulty();
+                    } else if (guess < targetNumber) {
+                        resultText.setText("Higher! Try again.");
+                    } else {
+                        resultText.setText("Lower! Try again.");
+                    }
+                } else {
+                    resultText.setText("Please enter a number.");
+                }
+            }
+        });
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initializeGame();
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GuessNumberActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
 
-    private void generateNewNumber() {
-        targetNumber = random.nextInt(maxRange) + 1;
+    private void initializeGame() {
+        range = 20;
+        targetNumber = generateRandomNumber(range);
+        rangeText.setText("Guess a number between 1 and " + range);
+        resultText.setText("Result:");
+        guessInput.setText("");
     }
 
-    private void checkGuess() {
-        String input = guessInput.getText().toString();
+    private void increaseDifficulty() {
+        range += 10;
+        targetNumber = generateRandomNumber(range);
+        rangeText.setText("Guess a number between 1 and " + range);
+    }
 
-        if (input.isEmpty()) {
-            Toast.makeText(this, "Please enter a number", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int guess = Integer.parseInt(input);
-
-        if (guess == targetNumber) {
-            resultText.setText("Correct! Moving to level " + (level + 1));
-            level++;
-            maxRange += 10; // כל רמה מוסיפה טווח גדול יותר
-            generateNewNumber();
-        } else if (guess < targetNumber) {
-            resultText.setText("Too low! Try again.");
-        } else {
-            resultText.setText("Too high! Try again.");
-        }
-
-        guessInput.setText(""); // לנקות את השדה אחרי כל ניחוש
+    private int generateRandomNumber(int maxRange) {
+        Random random = new Random();
+        return random.nextInt(maxRange) + 1;
     }
 }

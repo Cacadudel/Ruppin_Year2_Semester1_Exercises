@@ -13,7 +13,7 @@
         android:theme="@style/Theme.EndProject"
         tools:targetApi="31">
 
-        <!-- SplashActivity כעמוד פתיחה -->
+        <!-- מסך פתיחה -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -23,16 +23,31 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity כעמוד ראשי -->
-        <activity android:name=".MainActivity" android:exported="true"/>
+        <!-- מסך ראשי -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"/>
 
-        <!-- GuessNumberActivity כעמוד לניחוש המספר -->
-        <activity android:name=".GuessNumberActivity" android:exported="true"/>
+        <!-- מסך משחק "נחש את המספר" -->
+        <activity
+            android:name=".GuessNumberActivity"
+            android:exported="true"/>
 
-        <!-- מסכים נוספים -->
-        <activity android:name=".FillDetailsActivity" android:exported="true"/>
-        <activity android:name=".MathCalculatorActivity" android:exported="true"/>
-        <activity android:name=".NewGameActivity" android:exported="true"/>
+        <!-- מסך מילוי פרטים (כולל צילום תמונה/וידאו) -->
+        <activity
+            android:name=".FillDetailsActivity"
+            android:exported="true"/>
+
+        <!-- מסך מחשבון מתמטי -->
+        <activity
+            android:name=".MathCalculatorActivity"
+            android:exported="true"/>
+
+        <!-- מסך משחק חדש -->
+        <activity
+            android:name=".NewGameActivity"
+            android:exported="true"/>
+
     </application>
 
 </manifest>
