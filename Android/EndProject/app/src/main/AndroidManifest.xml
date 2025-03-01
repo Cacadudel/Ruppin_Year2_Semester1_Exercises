@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    package="com.example.endproject">
+
+    <!-- הרשאות מצלמה -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EndProject"
-        tools:targetApi="31">
+        android:theme="@style/Theme.EndProject">
 
+        <!-- Existing activities -->
         <!-- SplashActivity כעמוד פתיחה -->
-        <activity
-            android:name=".SplashActivity"
+        <activity android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <!-- MainActivity כעמוד ראשי -->
-        <activity android:name=".MainActivity" android:exported="true"/>
-
-        <!-- GuessNumberActivity כעמוד לניחוש המספר -->
-        <activity android:name=".GuessNumberActivity" android:exported="true"/>
-
+        <activity android:name=".MainActivity" />
         <!-- מסכים נוספים -->
-        <activity android:name=".FillDetailsActivity" android:exported="true"/>
-        <activity android:name=".MathCalculatorActivity" android:exported="true"/>
-        <activity android:name=".NewGameActivity" android:exported="true"/>
+        <activity android:name=".GuessNumberActivity" />
+        <activity android:name=".MathCalculatorActivity" />
+        <activity android:name=".FillDetailsActivity" />
+        <activity android:name=".NewGameActivity" />
+        <activity android:name=".GridActivity" />
+
+        <activity android:name=".UserDetailsActivity" />
+
+        <!-- פרטים שאומרים לאפליקציה לדעת איפה לשמור קבצים -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.endproject.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>
