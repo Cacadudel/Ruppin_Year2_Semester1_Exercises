@@ -46,7 +46,7 @@ public class NewGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
 
-        // Initialize UI elements
+        // החלת הUI
         categorySpinner = findViewById(R.id.categorySpinner);
         newGameButton = findViewById(R.id.newGameButton);
         guessButton = findViewById(R.id.guessButton);
