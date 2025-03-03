@@ -36,7 +36,7 @@
     <!-- ראש -->
     <path
         android:fillColor="#00000000"
-        android:pathData="M125,60 A15,15 0 1,0 125,59.9"
+        android:pathData="M140,60 A15,15 0 1,0 140,59.9"
         android:strokeWidth="4"
         android:strokeColor="#FFFFFF" />
 
@@ -44,20 +44,6 @@
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M140,75 L140,120"
-        android:strokeWidth="4"
-        android:strokeColor="#FFFFFF" />
-
-    <!-- יד שמאל -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M140,85 L110,105"
-        android:strokeWidth="4"
-        android:strokeColor="#FFFFFF" />
-
-    <!-- יד ימין -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M140,85 L170,105"
         android:strokeWidth="4"
         android:strokeColor="#FFFFFF" />
 </vector>

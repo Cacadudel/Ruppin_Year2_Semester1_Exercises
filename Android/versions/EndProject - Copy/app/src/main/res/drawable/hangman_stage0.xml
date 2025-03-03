@@ -5,21 +5,21 @@
     android:viewportWidth="200"
     android:viewportHeight="200">
 
-    <!-- בסיס -->
+    <!-- הבסיס -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M20,180 L180,180"
         android:strokeWidth="4"
         android:strokeColor="#FFFFFF" />
 
-    <!-- מוט -->
+    <!-- המוט -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M60,180 L60,20"
         android:strokeWidth="4"
         android:strokeColor="#FFFFFF" />
 
-    <!-- חיבור חבל -->
+    <!-- חיבור לחבל -->
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M60,20 L140,20"
@@ -30,34 +30,6 @@
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M140,20 L140,40"
-        android:strokeWidth="4"
-        android:strokeColor="#FFFFFF" />
-
-    <!-- ראש -->
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M125,60 A15,15 0 1,0 125,59.9"
-        android:strokeWidth="4"
-        android:strokeColor="#FFFFFF" />
-
-    <!-- גוף -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M140,75 L140,120"
-        android:strokeWidth="4"
-        android:strokeColor="#FFFFFF" />
-
-    <!-- יד שמאל -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M140,85 L110,105"
-        android:strokeWidth="4"
-        android:strokeColor="#FFFFFF" />
-
-    <!-- יד ימין -->
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M140,85 L170,105"
         android:strokeWidth="4"
         android:strokeColor="#FFFFFF" />
 </vector>

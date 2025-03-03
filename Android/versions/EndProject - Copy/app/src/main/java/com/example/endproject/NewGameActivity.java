@@ -28,10 +28,10 @@ public class NewGameActivity extends AppCompatActivity {
 
     // UI Elements
     private Spinner categorySpinner;
-    private Button newGameButton, guessButton, guessWordButton, backButton;
+    private Button newGameButton, guessButton, backButton;
     private ImageView hangmanImage;
     private TextView wordDisplay, usedLettersDisplay;
-    private EditText letterInput, wordGuessInput;
+    private EditText letterInput;
 
     private Map<String, List<String>> categoryWords;
     private String currentWord = "";
@@ -50,13 +50,11 @@ public class NewGameActivity extends AppCompatActivity {
         categorySpinner = findViewById(R.id.categorySpinner);
         newGameButton = findViewById(R.id.newGameButton);
         guessButton = findViewById(R.id.guessButton);
-        guessWordButton = findViewById(R.id.guessWordButton);
         backButton = findViewById(R.id.backButton);
         hangmanImage = findViewById(R.id.hangmanImage);
         wordDisplay = findViewById(R.id.wordDisplay);
         usedLettersDisplay = findViewById(R.id.usedLettersDisplay);
         letterInput = findViewById(R.id.letterInput);
-        wordGuessInput = findViewById(R.id.wordGuessInput);
 
         setupCategoryWords();
         setupCategorySpinner();
@@ -80,30 +78,13 @@ public class NewGameActivity extends AppCompatActivity {
             letterInput.setText("");
         });
 
-        // מאזין לכפתור ניחוש המילה השלמה
-        guessWordButton.setOnClickListener(v -> {
-            if (!gameActive) {
-                Toast.makeText(NewGameActivity.this, "Please start a new game", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String guessedWord = wordGuessInput.getText().toString().trim().toUpperCase();
-            if (guessedWord.isEmpty()) {
-                Toast.makeText(NewGameActivity.this, "Please enter a word", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            processWordGuess(guessedWord);
-            wordGuessInput.setText("");
-        });
-
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(NewGameActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
     }
-    //יצירת קטגוריות ואיכלוסן
+//יצירת קטגוריות ואיכלוסן
     private void setupCategoryWords() {
         categoryWords = new HashMap<>();
 
@@ -134,7 +115,7 @@ public class NewGameActivity extends AppCompatActivity {
                 "THE GREAT GATSBY"
         ));
     }
-    //הכנת קטגוריות בתוך הרשימה
+//הכנת קטגוריות בתוך הרשימה
     private void setupCategorySpinner() {
         List<String> categories = new ArrayList<>(categoryWords.keySet());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -142,7 +123,7 @@ public class NewGameActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
     }
-    //התחלת משחק חדש
+//התחלת משחק חדש
     private void startNewGame() {
         gameActive = true;
         usedLetters = new HashSet<>();
@@ -170,7 +151,7 @@ public class NewGameActivity extends AppCompatActivity {
 
         Toast.makeText(this, "New game started! Category: " + category, Toast.LENGTH_SHORT).show();
     }
-    //תהליך הניחוש הכללי
+//תהליך הניחוש הכללי
     private void processGuess(char letter) {
         if (usedLetters.contains(letter)) {
             Toast.makeText(this, "You already used this letter", Toast.LENGTH_SHORT).show();
@@ -197,27 +178,7 @@ public class NewGameActivity extends AppCompatActivity {
             checkLoseCondition();
         }
     }
-
-    // תהליך הניחוש למילה שלמה
-    private void processWordGuess(String guessedWord) {
-        if (guessedWord.equals(currentWord)) {
-            // ניחוש נכון - חשיפת כל האותיות
-            for (int i = 0; i < currentWord.length(); i++) {
-                displayedWord[i] = currentWord.charAt(i);
-            }
-            updateWordDisplay();
-            gameActive = false;
-            showGameEndDialog(true);
-        } else {
-            // ניחוש שגוי - המשחק נגמר בהפסד
-            wrongGuesses = MAX_WRONG_GUESSES;
-            updateHangmanImage();
-            gameActive = false;
-            showGameEndDialog(false);
-        }
-    }
-
-    //עדכון תצוגת המילה
+//עדכון תצוגת המילה
     private void updateWordDisplay() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < displayedWord.length; i++) {
@@ -225,7 +186,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
         wordDisplay.setText(sb.toString());
     }
-    //מציג את האותיות שהמשתמש ניחש. צריך לעצור אותו אם ינסה להשתמש שוב באחת
+//מציג את האותיות שהמשתמש ניחש. צריך לעצור אותו אם ינסה להשתמש שוב באחת
     private void updateUsedLetters() {
         StringBuilder sb = new StringBuilder();
         for (Character c : usedLetters) {
@@ -264,7 +225,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
         hangmanImage.setImageResource(resourceId);
     }
-    //בדיקה  האם המשתמש השלים את המילה+ צריך להוסיף אופציה לניחוש
+//בדיקה  האם המשתמש השלים את המילה+ צריך להוסיף אופציה לניחוש
     private void checkWinCondition() {
         boolean wordCompleted = true;
         for (char c : displayedWord) {
@@ -279,14 +240,14 @@ public class NewGameActivity extends AppCompatActivity {
             showGameEndDialog(true);
         }
     }
-    //הפעם בדיקה האם למשתמש נגמרו הנסיונות
+//הפעם בדיקה האם למשתמש נגמרו הנסיונות
     private void checkLoseCondition() {
         if (wrongGuesses >= MAX_WRONG_GUESSES) {
             gameActive = false;
             showGameEndDialog(false);
         }
     }
-    //פידבק ניצחון/הפסד
+//פידבק ניצחון/הפסד
     private void showGameEndDialog(boolean won) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(won ? "Congratulations!" : "Game Over");
