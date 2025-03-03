@@ -27,14 +27,16 @@ import java.util.Set;
 public class NewGameActivity extends AppCompatActivity {
 
     // UI Elements
-    private Spinner categorySpinner;
+    private Spinner categorySpinner, difficultySpinner;
     private Button newGameButton, guessButton, guessWordButton, backButton;
     private ImageView hangmanImage;
     private TextView wordDisplay, usedLettersDisplay;
     private EditText letterInput, wordGuessInput;
 
-    private Map<String, List<String>> categoryWords;
+    // משתני משחק
+    private Map<String, Map<String, List<String>>> categoryWordsByDifficulty; // מילון של קטגוריות עם מילון של רמות קושי ומילים
     private String currentWord = "";
+    private String currentDifficulty = "";
     private char[] displayedWord;
     private Set<Character> usedLetters;
     private int wrongGuesses = 0;
@@ -48,6 +50,7 @@ public class NewGameActivity extends AppCompatActivity {
 
         // החלת הUI
         categorySpinner = findViewById(R.id.categorySpinner);
+        difficultySpinner = findViewById(R.id.difficultySpinner);
         newGameButton = findViewById(R.id.newGameButton);
         guessButton = findViewById(R.id.guessButton);
         guessWordButton = findViewById(R.id.guessWordButton);
@@ -60,6 +63,7 @@ public class NewGameActivity extends AppCompatActivity {
 
         setupCategoryWords();
         setupCategorySpinner();
+        setupDifficultySpinner();
 
         newGameButton.setOnClickListener(v -> startNewGame());
 
@@ -103,54 +107,105 @@ public class NewGameActivity extends AppCompatActivity {
             finish();
         });
     }
-    //יצירת קטגוריות ואיכלוסן
+
+    //יצירת קטגוריות ואיכלוסן על פי רמות קושי
     private void setupCategoryWords() {
-        categoryWords = new HashMap<>();
+        categoryWordsByDifficulty = new HashMap<>();
 
-        // Add movies
-        categoryWords.put("Movies", Arrays.asList(
-                "THE GODFATHER",
-                "STAR WARS",
-                "JURASSIC PARK",
-                "THE MATRIX",
-                "TITANIC"
+        // יצירת מילון לקטגוריית סרטים
+        Map<String, List<String>> moviesByDifficulty = new HashMap<>();
+        // סרטים ברמה קלה (4-5 אותיות)
+        moviesByDifficulty.put("Easy", Arrays.asList(
+                "JAWS", "CARS", "STAR", "DUNE", "LION"
         ));
+        // סרטים ברמה בינונית (6-8 אותיות)
+        moviesByDifficulty.put("Medium", Arrays.asList(
+                "TITANIC", "BATMAN", "MATRIX", "FROZEN", "JOKER"
+        ));
+        // סרטים ברמה קשה (9+ אותיות או מילים מרובות)
+        moviesByDifficulty.put("Hard", Arrays.asList(
+                "THE GODFATHER",
+                "JURASSIC PARK",
+                "THE DARK KNIGHT",
+                "FORREST GUMP",
+                "INCEPTION"
+        ));
+        categoryWordsByDifficulty.put("Movies", moviesByDifficulty);
 
-        // Add TV shows
-        categoryWords.put("TV Shows", Arrays.asList(
+        // יצירת מילון לקטגוריית סדרות טלוויזיה
+        Map<String, List<String>> showsByDifficulty = new HashMap<>();
+        // סדרות ברמה קלה
+        showsByDifficulty.put("Easy", Arrays.asList(
+                "LOST", "GLEE", "POSE", "MONK", "ROME"
+        ));
+        // סדרות ברמה בינונית
+        showsByDifficulty.put("Medium", Arrays.asList(
+                "FRIENDS", "SCRUBS", "HEROES", "DEXTER", "THE BOYS"
+        ));
+        // סדרות ברמה קשה
+        showsByDifficulty.put("Hard", Arrays.asList(
                 "GAME OF THRONES",
                 "BREAKING BAD",
-                "FRIENDS",
-                "THE OFFICE",
-                "STRANGER THINGS"
+                "THE WALKING DEAD",
+                "STRANGER THINGS",
+                "THE CROWN"
         ));
+        categoryWordsByDifficulty.put("TV Shows", showsByDifficulty);
 
-        // Add books
-        categoryWords.put("Books", Arrays.asList(
-                "HARRY POTTER",
-                "THE LORD OF THE RINGS",
-                "TO KILL A MOCKINGBIRD",
-                "PRIDE AND PREJUDICE",
-                "THE GREAT GATSBY"
+        // יצירת מילון לקטגוריית ספרים
+        Map<String, List<String>> booksByDifficulty = new HashMap<>();
+        // ספרים ברמה קלה
+        booksByDifficulty.put("Easy", Arrays.asList(
+                "IT", "DUNE", "JAWS", "ROOM", "GONE"
         ));
+        // ספרים ברמה בינונית
+        booksByDifficulty.put("Medium", Arrays.asList(
+                "DRACULA", "MATILDA", "BELOVED", "REBECCA", "CARRIE"
+        ));
+        // ספרים ברמה קשה
+        booksByDifficulty.put("Hard", Arrays.asList(
+                "PRIDE AND PREJUDICE",
+                "TO KILL A MOCKINGBIRD",
+                "THE GREAT GATSBY",
+                "THE LORD OF THE RINGS",
+                "CRIME AND PUNISHMENT"
+        ));
+        categoryWordsByDifficulty.put("Books", booksByDifficulty);
     }
+
     //הכנת קטגוריות בתוך הרשימה
     private void setupCategorySpinner() {
-        List<String> categories = new ArrayList<>(categoryWords.keySet());
+        List<String> categories = new ArrayList<>(categoryWordsByDifficulty.keySet());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
     }
+
+    //הכנת רמות קושי בתוך הרשימה
+    private void setupDifficultySpinner() {
+        List<String> difficulties = Arrays.asList("Easy", "Medium", "Hard");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, difficulties);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        difficultySpinner.setAdapter(adapter);
+    }
+
     //התחלת משחק חדש
     private void startNewGame() {
         gameActive = true;
         usedLetters = new HashSet<>();
         wrongGuesses = 0;
 
-        // הגרלת שם מהקטגוריה
+        // קבלת קטגוריה ורמת קושי נבחרת
         String category = categorySpinner.getSelectedItem().toString();
-        List<String> words = categoryWords.get(category);
+        currentDifficulty = difficultySpinner.getSelectedItem().toString();
+
+        // קבלת רשימת המילים המתאימה לקטגוריה ולרמת הקושי
+        Map<String, List<String>> difficultyWords = categoryWordsByDifficulty.get(category);
+        List<String> words = difficultyWords.get(currentDifficulty);
+
+        // הגרלת מילה אקראית מהרשימה
         Random random = new Random();
         currentWord = words.get(random.nextInt(words.size()));
 
@@ -168,8 +223,9 @@ public class NewGameActivity extends AppCompatActivity {
         usedLettersDisplay.setText("");
         updateHangmanImage();
 
-        Toast.makeText(this, "New game started! Category: " + category, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "New game started! Category: " + category + ", Difficulty: " + currentDifficulty, Toast.LENGTH_SHORT).show();
     }
+
     //תהליך הניחוש הכללי
     private void processGuess(char letter) {
         if (usedLetters.contains(letter)) {
@@ -225,6 +281,7 @@ public class NewGameActivity extends AppCompatActivity {
         }
         wordDisplay.setText(sb.toString());
     }
+
     //מציג את האותיות שהמשתמש ניחש. צריך לעצור אותו אם ינסה להשתמש שוב באחת
     private void updateUsedLetters() {
         StringBuilder sb = new StringBuilder();
@@ -264,7 +321,8 @@ public class NewGameActivity extends AppCompatActivity {
         }
         hangmanImage.setImageResource(resourceId);
     }
-    //בדיקה  האם המשתמש השלים את המילה+ צריך להוסיף אופציה לניחוש
+
+    //בדיקה האם המשתמש השלים את המילה
     private void checkWinCondition() {
         boolean wordCompleted = true;
         for (char c : displayedWord) {
@@ -279,6 +337,7 @@ public class NewGameActivity extends AppCompatActivity {
             showGameEndDialog(true);
         }
     }
+
     //הפעם בדיקה האם למשתמש נגמרו הנסיונות
     private void checkLoseCondition() {
         if (wrongGuesses >= MAX_WRONG_GUESSES) {
@@ -286,6 +345,7 @@ public class NewGameActivity extends AppCompatActivity {
             showGameEndDialog(false);
         }
     }
+
     //פידבק ניצחון/הפסד
     private void showGameEndDialog(boolean won) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
