@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- הבסיס -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,180 L180,180"
+        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF" />
+
+    <!-- המוט -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,180 L60,20"
+        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF" />
+
+    <!-- חיבור לחבל -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M60,20 L140,20"
+        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF" />
+
+    <!-- חבל -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M140,20 L140,40"
+        android:strokeWidth="4"
+        android:strokeColor="#FFFFFF" />
+</vector>
