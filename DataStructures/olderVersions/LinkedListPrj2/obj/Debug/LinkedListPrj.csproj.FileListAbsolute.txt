@@ -1,0 +1,7 @@
+C:\Users\Shai\Documents\Studies\UnitedByGit\Ruppin_Year2_Semester1_Exercises\DataStructures\LinkedListPrj\bin\Debug\LinkedListPrj.exe.config
+C:\Users\Shai\Documents\Studies\UnitedByGit\Ruppin_Year2_Semester1_Exercises\DataStructures\LinkedListPrj\bin\Debug\LinkedListPrj.exe
+C:\Users\Shai\Documents\Studies\UnitedByGit\Ruppin_Year2_Semester1_Exercises\DataStructures\LinkedListPrj\bin\Debug\LinkedListPrj.pdb
+C:\Users\Shai\Documents\Studies\UnitedByGit\Ruppin_Year2_Semester1_Exercises\DataStructures\LinkedListPrj\obj\Debug\LinkedListPrj.csproj.AssemblyReference.cache
+C:\Users\Shai\Documents\Studies\UnitedByGit\Ruppin_Year2_Semester1_Exercises\DataStructures\LinkedListPrj\obj\Debug\LinkedListPrj.csproj.CoreCompileInputs.cache
+C:\Users\Shai\Documents\Studies\UnitedByGit\Ruppin_Year2_Semester1_Exercises\DataStructures\LinkedListPrj\obj\Debug\LinkedListPrj.exe
+C:\Users\Shai\Documents\Studies\UnitedByGit\Ruppin_Year2_Semester1_Exercises\DataStructures\LinkedListPrj\obj\Debug\LinkedListPrj.pdb
